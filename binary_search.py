@@ -1,7 +1,20 @@
 # binary search
 
-query_list = [9, 8, 7, 6, 5, 4, 3, 2, 1]
-number = 3
+query_list = [9, 8, 6, 6, 6, 6, 6, 6, 5, 5, 4, 3, 2, 1]
+number = 5
+
+
+def test_location(query, number, mid):
+
+    if query[mid] == number:
+        if mid - 1 >= 0 and query[mid-1] == number:
+            return 'left'
+        else:
+            return 'found'
+    elif query[mid] > number:
+        return 'right'
+    elif query[mid] < number:
+        return 'left'
 
 
 def binary_search(query, number):
@@ -10,13 +23,15 @@ def binary_search(query, number):
     while low <= high:
         mid = (low + high) // 2
 
-        print(f'low: {low}, high: {high}, mid: {mid}')
+        print(f'low: {low}, high: {high}')
 
-        if query[mid] < number:
+        result = test_location(query, number, mid)
+
+        if result == 'left':
             high = mid - 1
-        elif query[mid] > number:
+        elif result == 'right':
             low = mid + 1
-        else:
+        elif result == 'found':
             return mid
 
     return -1
