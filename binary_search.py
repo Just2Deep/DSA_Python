@@ -23,8 +23,6 @@ def binary_search(query, number):
     while low <= high:
         mid = (low + high) // 2
 
-        print(f'low: {low}, high: {high}')
-
         result = test_location(query, number, mid)
 
         if result == 'left':
@@ -38,3 +36,41 @@ def binary_search(query, number):
 
 
 print(binary_search(query_list, number))
+
+
+# binary search using function closure
+
+def b_search(low, high, condition):
+
+    while low <= high:
+
+        mid = (low+high)//2
+        result = condition(mid)
+
+        if result == 'found':
+            return mid
+        elif result == 'left':
+            high = mid - 1
+        else:
+            low = mid + 1
+
+    return -1
+
+
+def locate_card(query_list, number):
+
+    def condition(mid):
+        if query_list[mid] == number:
+            if mid-1 >= 0 and query_list[mid-1] == number:
+                return 'left'
+            else:
+                return 'found'
+        elif query_list[mid] < number:
+            return 'left'
+        else:
+            return 'right'
+
+    return b_search(0, len(query_list)-1, condition)
+
+
+print(locate_card(query_list, number))
