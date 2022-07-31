@@ -80,36 +80,23 @@ def binary_count_rotations_prob(nums, target):
         if mid_num == target:
 
             # if repeating nums exist
-
-            # [5, 5, 6, 6, 9, 9, 0, 0, 2, 2, 3, 3, 4, 4]
             if mid > 0 and mid_num == nums[mid-1]:
-
+                # [5, 5, 6, 6, 9, 9, 0, 0, 2, 2, 3, 3, 4, 4]
                 return 'left'
-
             else:
-
                 return 'found'
 
         # when mid_num is smaller than low       #[5, 6, 9, 0, 2, 3, 4]
-
         elif mid_num <= nums[low]:
-
-            if mid_num < target and target >= nums[low]:
-
+            if target >= nums[low] and target > mid_num:
                 return 'left'
-
-            elif mid_num < target and target < nums[low]:
-
+            else:
                 return 'right'
 
         # when mid_num is greater than low        #[4, 5, 6, 9, 0, 2, 3]
-
         elif mid_num >= nums[low]:
-
-            if mid_num > target and target >= nums[low]:
-
+            if target >= nums[low] and mid_num > target:
                 return 'left'
-
             else:
                 return 'right'
 
@@ -118,4 +105,4 @@ def binary_count_rotations_prob(nums, target):
     return 0 if count == -1 else count
 
 
-print(binary_count_rotations_prob(nums, 3))
+print(binary_count_rotations_prob(nums, 9))
