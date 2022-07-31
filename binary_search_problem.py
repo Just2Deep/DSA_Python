@@ -88,14 +88,14 @@ def binary_count_rotations_prob(nums, target):
 
         # when mid_num is smaller than low       #[5, 6, 9, 0, 2, 3, 4]
         elif mid_num <= nums[low]:
-            if target >= nums[low] and target > mid_num:
+            if target >= nums[low]:
                 return 'left'
             else:
                 return 'right'
 
         # when mid_num is greater than low        #[4, 5, 6, 9, 0, 2, 3]
         elif mid_num >= nums[low]:
-            if target >= nums[low] and mid_num > target:
+            if target >= nums[low]:
                 return 'left'
             else:
                 return 'right'
@@ -105,4 +105,4 @@ def binary_count_rotations_prob(nums, target):
     return 0 if count == -1 else count
 
 
-print(binary_count_rotations_prob(nums, 9))
+print(binary_count_rotations_prob(nums, 3))
