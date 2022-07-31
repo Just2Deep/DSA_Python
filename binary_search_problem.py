@@ -31,7 +31,7 @@ print(count_rotations(nums))
 
 def binary_count_rotations(nums):
 
-    def condition(mid):
+    def condition(mid, low):
         if nums[mid] < nums[mid-1]:
             return 'found'
         elif nums[mid] < nums[-1]:
@@ -49,7 +49,7 @@ def binary_search(low, high, condition):
     while low <= high:
         mid = (low+high)//2
 
-        result = condition(mid)
+        result = condition(mid, low)
 
         if result == 'found':
             return mid
@@ -74,29 +74,43 @@ Example: In the rotated sorted list [5, 6, 9, 0, 2, 3, 4], the target number 2 o
 
 def binary_count_rotations_prob(nums, target):
 
-    def condition(mid):
-        if nums[mid] == target and nums[mid - 1] < nums[mid]:
-            return 'found'
+    def condition(mid, low):
+        mid_num = nums[mid]
 
-        # When mid is smaller than 0
-        if nums[mid] < nums[0]:         # [5, 6, 9, 0, 2, 3, 4], [5,6,0,1,2,3,4]
-            if nums[mid] < nums[mid-1]:     # middle is the smallest [5, 6, 9, 0, 2, 3, 4]
-                if target >= nums[0]:   # target 5,6,9
-                    return 'left'
-                else:                       # target 2,3,4
-                    return 'right'
-            else:                           # [5,6,0,1,2,3,4]
-                if target >= nums[0] or target < nums[mid]:   # target 5,6,0
-                    return 'left'
-                elif target > nums[mid] and target < nums[0]:  # target 2,3,4
-                    return 'right'
+        if mid_num == target:
 
-            # When mid is greater than 0
-        # [4,5,6,7,0,1,2], [4,5,6,7,8,9,0,1,2]
-        else:
-            if target < nums[mid] and target >= nums[0]:  # target 4,5,6 and 4,5,6,7
+            # if repeating nums exist
+
+            # [5, 5, 6, 6, 9, 9, 0, 0, 2, 2, 3, 3, 4, 4]
+            if mid > 0 and mid_num == nums[mid-1]:
+
                 return 'left'
-            elif target > nums[mid] or target < nums[0]:  # target 9 and 0,1,2
+
+            else:
+
+                return 'found'
+
+        # when mid_num is smaller than low       #[5, 6, 9, 0, 2, 3, 4]
+
+        elif mid_num <= nums[low]:
+
+            if mid_num < target and target >= nums[low]:
+
+                return 'left'
+
+            elif mid_num < target and target < nums[low]:
+
+                return 'right'
+
+        # when mid_num is greater than low        #[4, 5, 6, 9, 0, 2, 3]
+
+        elif mid_num >= nums[low]:
+
+            if mid_num > target and target >= nums[low]:
+
+                return 'left'
+
+            else:
                 return 'right'
 
     count = binary_search(0, len(nums)-1, condition)
